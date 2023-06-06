@@ -15,7 +15,7 @@ def funcionario_list(request):
     funcionarios = FUNCIONARIO.objects.all()
     return render(request, 'funcionario.html', {'funcionarios': funcionarios})
 
-#TODO: ORGANIZAR UMA MANEIRA DE RECEBER TODOS OS DADOS DO FUNCIONARIO
+
 @login_required
 def funcionario_new(request):
     if request.method == 'POST':
@@ -47,7 +47,7 @@ def funcionario_new(request):
 
     return render(request, 'funcionarioForm.html', context)
 
-#TODO: FINALIZAR O CRUD DE FUNCIONARIOS
+#TODO: FINALIZAR O CRUD DE FUNCIONARIOS senha não está recebendo de maneira correta
 
 @login_required
 def funcionario_update(request, id):
@@ -75,7 +75,7 @@ def funcionario_update(request, id):
     }
 #    return render(request, 'funcionarioForm.html', context)
     return render(request, 'funcionarioFormUpdate.html', context)
-#TODO: Fazer uma view para mudanca de senha
+
 
 @login_required
 def change_password(request, id):
