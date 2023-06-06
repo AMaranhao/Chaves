@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Funcionarios Cadastrados</title>
+</head>
+<body>
+    <a href="{% url 'logout' %}">Sair</a>
+    <h1>Funcionarios Cadastrados</h1>
+
+    <ul>
+    {% for funcionario in funcionarios %}
+        <li>
+            <a href="{% url 'funcionario_update' funcionario.id %}">{{funcionario.User_FK}}</a>
+            <a href="{% url 'funcionario_delete' funcionario.id %}"> -    Deletar</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <p>
+    <a href="{% url 'user_new' %}">Novo Funcionario</a>
+    </p><p>
+    <a href="{% url 'menu' %}">Voltar</a>
+    </p>
+</body>
+</html>

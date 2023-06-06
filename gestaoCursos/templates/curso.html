@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cursos Cadastrados</title>
+</head>
+<body>
+    <a href="{% url 'logout' %}">Sair</a>
+    <h1>Cursos Cadastrados</h1>
+
+    <ul>
+    {% for curso in cursos %}
+        <li>
+            <a href="{% url 'curso_update' curso.id %}">{{curso.Nome}}</a>
+            <a href="{% url 'curso_delete' curso.id %}"> -    Deletar</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <p><a href="{% url 'curso_new' %}">Novo Curso</a></p>
+    <p><a href="{% url 'menu' %}">Voltar</a></p>
+
+
+</body>
+</html>

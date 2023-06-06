@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendamentos Realizados</title>
+</head>
+<body>
+    <a href="{% url 'logout' %}">Sair</a>
+    <h1>Agendamentos Realizados</h1>
+
+    <ul>
+    {% for agendamento in agendamentos %}
+        <li>
+            <a href="{% url 'agendamento_update' agendamento.id %}">
+                {{agendamento.Salas_FK}} - {{agendamento.Horario_inicio}}</a>
+            <a href="{% url 'agendamento_delete' agendamento.id %}"> -    Deletar</a>
+        </li>
+    {% endfor %}
+    </ul>
+    </ul>
+    <p>
+    <a href="{% url 'agendamento_new' %}">Novo Agendamento</a>
+    </p><p>
+    <a href="{% url 'menu' %}">Voltar</a>
+    </p>
+</body>
+</html>

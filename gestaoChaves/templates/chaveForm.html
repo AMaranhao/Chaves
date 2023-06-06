@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Chave</title>
+</head>
+<body>
+    <h1>Cadastro de Chave</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+        <a href="{% url 'chave_list' %}">Cancelar</a>
+    </form>
+
+
+</body>
+</html>
