@@ -2,7 +2,9 @@ from django import forms
 from django.forms import ModelForm
 from BancoDeDados.models import FUNCIONARIO
 from django.contrib.auth.models import User
-
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.core.exceptions import ValidationError
+from django.db import transaction
 
 class FuncionarioForm(ModelForm):
     class Meta:
@@ -28,6 +30,7 @@ class FuncionarioForm(ModelForm):
 
 class UserForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
     username = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Username'}),
         max_length=150,
@@ -35,7 +38,7 @@ class UserForm(ModelForm):
     )
     class Meta:
         model = User
-        fields = ['password', 'username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
         labels = {
             'password': 'Senha',
             'username': 'Usuário',
@@ -44,17 +47,24 @@ class UserForm(ModelForm):
             'email': 'Email Senac'
         }
 
-        def clean_username(self):
-            username = self.cleaned_data['username']
-            if User.objects.filter(username=username).exists():
-                raise forms.ValidationError('Este nome de usuário já está em uso.')
-            return username
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
 
-        def clean_email(self):
-            email = self.cleaned_data['email']
-            if User.objects.filter(email=email).exists():
-                raise forms.ValidationError('Este email já está em uso.')
-            return email
+        if password and confirm_password and password != confirm_password:
+            raise ValidationError("As senhas não coincidem.")
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError('Este nome de usuário já está em uso.')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Este email já está em uso.')
+        return email
 
 class UserFormUpdate(ModelForm):
     is_active = forms.NullBooleanField(widget=forms.NullBooleanSelect)

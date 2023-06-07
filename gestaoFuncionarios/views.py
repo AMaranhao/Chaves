@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,9 @@ from BancoDeDados.models import FUNCIONARIO
 from django.contrib.auth.models import User
 from .forms import FuncionarioForm, UserForm, UserFormUpdate
 from django.db import transaction
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.core.exceptions import ValidationError
+
 
 
 
@@ -21,6 +24,10 @@ def funcionario_new(request):
     if request.method == 'POST':
         form1 = UserForm(request.POST)
         form2 = FuncionarioForm(request.POST)
+        context = {
+            'form1': form1,
+            'form2': form2
+        }
         if form1.is_valid() and form2.is_valid():
             with transaction.atomic():
                 userForm1 = form1.save(commit=False)
@@ -29,7 +36,8 @@ def funcionario_new(request):
                     validate_password(password, user=userForm1)
                 except ValidationError as e:
                     form1.add_error('password', e)
-                    return render(request, 'funcionarioForm.html', {'form1': form1, 'form2': form2})
+                    return render(request, 'funcionarioForm.html', context)
+
                 userForm1.set_password(password)
                 userForm1.save()
 
@@ -44,7 +52,6 @@ def funcionario_new(request):
         'form1': form1,
         'form2': form2
     }
-
     return render(request, 'funcionarioForm.html', context)
 
 #TODO: FINALIZAR O CRUD DE FUNCIONARIOS senha não está recebendo de maneira correta
@@ -76,10 +83,31 @@ def funcionario_update(request, id):
 #    return render(request, 'funcionarioForm.html', context)
     return render(request, 'funcionarioFormUpdate.html', context)
 
+"""
+@login_required
+def set_password(request, id):
+    funcionario = get_object_or_404(FUNCIONARIO, pk=id)
+    user = funcionario.USER_FK
 
+    if request.method == 'POST':
+        form = SetPasswordForm(user=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('funcionario_list')
+    else:
+        form = SetPasswordForm(user=user)
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'change_password.html', context)
+"""
+
+"""
 @login_required
 def change_password(request, id):
     funcionario = get_object_or_404(FUNCIONARIO, pk=id)
+    
     if request.method == 'POST':
         form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
@@ -89,6 +117,27 @@ def change_password(request, id):
         form = PasswordChangeForm(user=request.user)
 
     return render(request, 'change_password.html', {'form': form})
+
+"""
+@login_required
+def change_password(request, id):
+    funcionario = get_object_or_404(FUNCIONARIO, pk=id)
+    user = funcionario.USER_FK
+
+    if request.method == 'POST':
+        form = SetPasswordForm(user=user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('funcionario_list')
+    else:
+        form = SetPasswordForm(user=user)
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'change_password.html', extra_context=context, post_change_redirect='funcionario_list')
+
+
 
 
 @login_required
@@ -101,8 +150,11 @@ def funcionario_delete(request, id):
         funcionario.delete()
         user.delete()
         return redirect('funcionario_list')
+    context = {
+        'form': form,
+    }
 
-    return render(request, 'funcionarioDeleteConfirm.html', {'form': form})
+    return render(request, 'funcionarioDeleteConfirm.html', context)
 
 
 
