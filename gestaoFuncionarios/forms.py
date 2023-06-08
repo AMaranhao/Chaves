@@ -37,17 +37,16 @@ class UserForm(ModelForm):
         max_length=150,
         help_text=None
     )
+
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'username', 'email']
         labels = {
-            'password': 'Senha',
             'username': 'Usuário',
             'first_name': 'Nome',
             'last_name': 'Sobrenome',
             'email': 'Email Senac'
         }
-
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -66,6 +65,8 @@ class UserForm(ModelForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('Este email já está em uso.')
         return email
+
+
 
 class UserFormUpdate(ModelForm):
     is_active = forms.NullBooleanField(widget=forms.NullBooleanSelect)
