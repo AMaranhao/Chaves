@@ -54,7 +54,6 @@ def funcionario_new(request):
     }
     return render(request, 'funcionarioForm.html', context)
 
-#TODO: FINALIZAR O CRUD DE FUNCIONARIOS senha não está recebendo de maneira correta
 
 @login_required
 def funcionario_update(request, id):
@@ -100,7 +99,7 @@ def set_password(request, id):
         'form': form,
     }
 
-    return render(request, 'change_password.html', context)
+    return render(request, 'changePassword.html', context)
 """
 
 """
@@ -116,7 +115,7 @@ def change_password(request, id):
     else:
         form = PasswordChangeForm(user=request.user)
 
-    return render(request, 'change_password.html', {'form': form})
+    return render(request, 'changePassword.html', {'form': form})
 
 """
 @login_required
@@ -135,9 +134,11 @@ def change_password(request, id):
         'form': form,
     }
 
-    return render(request, 'change_password.html', extra_context=context, post_change_redirect='funcionario_list')
+    return render(request, 'changePassword.html', extra_context=context, post_change_redirect='funcionario_list')
 
-
+@login_required
+def change_password_success(request):
+    return render(request, 'changePasswordSuccess.html')
 
 
 @login_required

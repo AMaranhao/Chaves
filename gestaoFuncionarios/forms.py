@@ -15,13 +15,14 @@ class FuncionarioForm(ModelForm):
             'Cargo_FK': 'Cargo',
         }
 
-        def clean_username(self):
+        def clean_CPF(self):
             cpf = self.cleaned_data['CPF']
             if User.objects.filter(CPF=cpf).exists():
                 raise forms.ValidationError('Este CPF já está em uso.')
             return cpf
 
-        def clean_email(self):
+        # TODO: Transformar email da tabela User em campos unicos
+        def clean_Matricula(self):
             matricula = self.cleaned_data['Matricula']
             if User.objects.filter(Matricula=matricula).exists():
                 raise forms.ValidationError('Esta Matricula já está em uso.')
