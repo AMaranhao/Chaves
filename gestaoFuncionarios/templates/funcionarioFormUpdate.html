@@ -13,8 +13,9 @@
 
         <button type="submit">Salvar</button>
         <a href="{% url 'funcionario_list' %}">Cancelar</a>
-
-        <a href="{% url 'change_password' %}">Alterar senha</a>
+        {% if form1.instance.pk == request.user.pk %}
+            <a href="{% url 'change_password' %}">Alterar senha</a>
+        {% endif %}
 
     </form>
 

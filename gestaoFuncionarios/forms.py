@@ -77,11 +77,11 @@ class UserFormUpdate(ModelForm):
     )
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
+        fields = ['first_name', 'last_name', 'username', 'email', 'is_active']
         labels = {
-            'username': 'Usuário',
             'first_name': 'Nome',
             'last_name': 'Sobrenome',
+            'username': 'Usuário',
             'email': 'Email Senac',
             'is_active':'Ativo'
         }

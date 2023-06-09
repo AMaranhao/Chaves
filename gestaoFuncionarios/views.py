@@ -79,7 +79,6 @@ def funcionario_update(request, id):
         'form1': form1,
         'form2': form2
     }
-#    return render(request, 'funcionarioForm.html', context)
     return render(request, 'funcionarioFormUpdate.html', context)
 
 """
