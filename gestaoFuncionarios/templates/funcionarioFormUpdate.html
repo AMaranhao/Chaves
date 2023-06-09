@@ -11,6 +11,9 @@
         {{ form1.as_p }}
         {{ form2.as_p }}
 
+        {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
+            {{ form3.as_p }}
+        {% endif %}
         <button type="submit">Salvar</button>
         <a href="{% url 'funcionario_list' %}">Cancelar</a>
         {% if form1.instance.pk == request.user.pk %}

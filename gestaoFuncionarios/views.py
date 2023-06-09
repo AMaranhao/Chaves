@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
 from BancoDeDados.models import FUNCIONARIO
 from django.contrib.auth.models import User
-from .forms import FuncionarioForm, UserForm, UserFormUpdate
+from .forms import FuncionarioForm, UserForm, UserFormUpdate, UserFormInativo
 from django.db import transaction
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
@@ -15,8 +15,13 @@ from django.core.exceptions import ValidationError
 
 @login_required
 def funcionario_list(request):
-    funcionarios = FUNCIONARIO.objects.all()
+    funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
+    if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+        funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Curso_FK)
+    else:
+        funcionarios = [funcionario_logado]
     return render(request, 'funcionario.html', {'funcionarios': funcionarios})
+
 
 
 @login_required
@@ -58,6 +63,11 @@ def funcionario_new(request):
 @login_required
 def funcionario_update(request, id):
     funcionario = get_object_or_404(FUNCIONARIO, pk=id)
+    funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
+    print(funcionario_logado.Cargo_FK.Nome)
+
+    if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+        form3 = UserFormInativo(instance=funcionario.User_FK)
 
     if request.method == 'POST':
         form1 = UserFormUpdate(request.POST or None, request.FILES or None, instance=funcionario.User_FK)
@@ -74,11 +84,22 @@ def funcionario_update(request, id):
     else:
         form1 = UserFormUpdate(instance=funcionario.User_FK)
         form2 = FuncionarioForm(instance=funcionario)
-
-    context = {
-        'form1': form1,
-        'form2': form2
-    }
+        if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+            form3 = UserFormInativo(instance=funcionario.User_FK)
+    if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+        context = {
+            'form1': form1,
+            'form2': form2,
+            'form3': form3,
+            'funcionario_logado': funcionario_logado,
+        }
+        print(8)
+    else:
+        context = {
+            'form1': form1,
+            'form2': form2,
+        }
+        print(9)
     return render(request, 'funcionarioFormUpdate.html', context)
 
 """

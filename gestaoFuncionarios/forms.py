@@ -69,7 +69,6 @@ class UserForm(ModelForm):
 
 
 class UserFormUpdate(ModelForm):
-    is_active = forms.NullBooleanField(widget=forms.NullBooleanSelect)
     username = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Username'}),
         max_length=150,
@@ -77,13 +76,12 @@ class UserFormUpdate(ModelForm):
     )
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'is_active']
+        fields = ['first_name', 'last_name', 'username', 'email']
         labels = {
             'first_name': 'Nome',
             'last_name': 'Sobrenome',
             'username': 'Usuário',
             'email': 'Email Senac',
-            'is_active':'Ativo'
         }
 
         def clean_username(self):
@@ -99,12 +97,12 @@ class UserFormUpdate(ModelForm):
             return email
 
 class UserFormInativo(ModelForm):
+    is_active = forms.NullBooleanField(
+        widget=forms.CheckboxInput)
     class Meta:
         model = User
         fields = ['is_active']
-        labels = {
-            'username': 'Usuário',
-            'first_name': 'Nome',
-            'last_name': 'Sobrenome',
-            'email': 'Email Senac'
-        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserFormInativo, self).__init__(*args, **kwargs)
+        self.fields['is_active'].label = 'Está Ativo'
