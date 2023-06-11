@@ -102,42 +102,8 @@ def funcionario_update(request, id):
         print(9)
     return render(request, 'funcionarioFormUpdate.html', context)
 
-"""
-@login_required
-def set_password(request, id):
-    funcionario = get_object_or_404(FUNCIONARIO, pk=id)
-    user = funcionario.USER_FK
 
-    if request.method == 'POST':
-        form = SetPasswordForm(user=user, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('funcionario_list')
-    else:
-        form = SetPasswordForm(user=user)
-    context = {
-        'form': form,
-    }
 
-    return render(request, 'changePassword.html', context)
-"""
-
-"""
-@login_required
-def change_password(request, id):
-    funcionario = get_object_or_404(FUNCIONARIO, pk=id)
-    
-    if request.method == 'POST':
-        form = PasswordChangeForm(user=request.user, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('funcionario_list')
-    else:
-        form = PasswordChangeForm(user=request.user)
-
-    return render(request, 'changePassword.html', {'form': form})
-
-"""
 @login_required
 def change_password(request, id):
     funcionario = get_object_or_404(FUNCIONARIO, pk=id)

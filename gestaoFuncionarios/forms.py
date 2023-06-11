@@ -21,7 +21,7 @@ class FuncionarioForm(ModelForm):
                 raise forms.ValidationError('Este CPF já está em uso.')
             return cpf
 
-        # TODO: Transformar email da tabela User em campos unicos
+
         def clean_Matricula(self):
             matricula = self.cleaned_data['Matricula']
             if User.objects.filter(Matricula=matricula).exists():
