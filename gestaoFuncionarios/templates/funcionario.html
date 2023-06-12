@@ -12,7 +12,7 @@
     {% for funcionario in funcionarios %}
         <li>
 
-            <a href="{% url 'funcionario_update' funcionario.id %}">{{funcionario.User_FK}}</a>
+            <a href="{% url 'funcionario_update' funcionario.id %}">{{funcionario.User_FK.first_name}} {{funcionario.User_FK.last_name}}</a>
 <!--            <a href="{% url 'funcionario_delete' funcionario.id %}"> -    Deletar</a> -->
         </li>
     {% endfor %}

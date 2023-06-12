@@ -29,6 +29,16 @@ class FuncionarioForm(ModelForm):
             return matricula
 
 
+class FuncionarioFormUpdate(ModelForm):
+    class Meta:
+        model = FUNCIONARIO
+        fields = ['Telefone', 'Curso_FK', 'Cargo_FK']
+        labels = {
+            'Curso_FK': 'Curso',
+            'Cargo_FK': 'Cargo',
+        }
+
+
 class UserForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
@@ -73,6 +83,11 @@ class UserFormUpdate(ModelForm):
         widget=forms.TextInput(attrs={'placeholder': 'Username'}),
         max_length=150,
         help_text=None
+    )
+#TODO:Autoinserir o @fac.pe.senac.br no campo email
+    email = forms.EmailField(
+        help_text='@fac.pe.senac.br',
+        required=True
     )
     class Meta:
         model = User

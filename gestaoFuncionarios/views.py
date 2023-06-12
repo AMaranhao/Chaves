@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
 from BancoDeDados.models import FUNCIONARIO
 from django.contrib.auth.models import User
-from .forms import FuncionarioForm, UserForm, UserFormUpdate, UserFormInativo
+from .forms import FuncionarioForm, UserForm, UserFormUpdate, UserFormInativo, FuncionarioFormUpdate
 from django.db import transaction
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
@@ -17,13 +17,13 @@ from django.core.exceptions import ValidationError
 def funcionario_list(request):
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
     if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
-        funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Curso_FK)
+        funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Curso_FK).order_by('User_FK__first_name')
         context = {
             'funcionarios': funcionarios,
             'funcionario_logado': funcionario_logado
         }
     elif funcionario_logado.Cargo_FK.Nome == 'Administrador':
-        funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Cargo_FK)
+        funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Curso_FK).order_by('User_FK__first_name')
         context = {
             'funcionarios': funcionarios,
             'funcionario_logado': funcionario_logado
@@ -84,7 +84,7 @@ def funcionario_update(request, id):
 
     if request.method == 'POST':
         form1 = UserFormUpdate(request.POST or None, request.FILES or None, instance=funcionario.User_FK)
-        form2 = FuncionarioForm(request.POST, instance=funcionario)
+        form2 = FuncionarioFormUpdate(request.POST, instance=funcionario)
 
         if form1.is_valid() and form2.is_valid():
             with transaction.atomic():
@@ -96,7 +96,7 @@ def funcionario_update(request, id):
             return redirect('funcionario_list')
     else:
         form1 = UserFormUpdate(instance=funcionario.User_FK)
-        form2 = FuncionarioForm(instance=funcionario)
+        form2 = FuncionarioFormUpdate(instance=funcionario)
         if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
             form3 = UserFormInativo(instance=funcionario.User_FK)
     if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
