@@ -12,15 +12,27 @@ from django.core.exceptions import ValidationError
 
 
 
-
+#TODO: Só mostrar funcionarios Ativos e criar um botão para visualizar funcionarios inativos
 @login_required
 def funcionario_list(request):
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
     if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
         funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Curso_FK)
+        context = {
+            'funcionarios': funcionarios,
+            'funcionario_logado': funcionario_logado
+        }
+    elif funcionario_logado.Cargo_FK.Nome == 'Administrador':
+        funcionarios = FUNCIONARIO.objects.filter(Curso_FK=funcionario_logado.Cargo_FK)
+        context = {
+            'funcionarios': funcionarios,
+            'funcionario_logado': funcionario_logado
+        }
     else:
-        funcionarios = [funcionario_logado]
-    return render(request, 'funcionario.html', {'funcionarios': funcionarios})
+        context = {
+            'funcionarios': [funcionario_logado]
+                   }
+    return render(request, 'funcionario.html', context)
 
 
 
@@ -60,13 +72,14 @@ def funcionario_new(request):
     return render(request, 'funcionarioForm.html', context)
 
 
+#TODO: Transformar as validaçãos do cargo do usuário em funções externas
 @login_required
 def funcionario_update(request, id):
     funcionario = get_object_or_404(FUNCIONARIO, pk=id)
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
-    print(funcionario_logado.Cargo_FK.Nome)
+#    funcao = funcionario_logado.Cargo_FK.Nome
 
-    if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+    if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
         form3 = UserFormInativo(instance=funcionario.User_FK)
 
     if request.method == 'POST':
@@ -84,24 +97,32 @@ def funcionario_update(request, id):
     else:
         form1 = UserFormUpdate(instance=funcionario.User_FK)
         form2 = FuncionarioForm(instance=funcionario)
-        if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+        if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
             form3 = UserFormInativo(instance=funcionario.User_FK)
-    if funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+    if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
         context = {
             'form1': form1,
             'form2': form2,
             'form3': form3,
             'funcionario_logado': funcionario_logado,
         }
-        print(8)
+
     else:
         context = {
             'form1': form1,
             'form2': form2,
         }
-        print(9)
+
     return render(request, 'funcionarioFormUpdate.html', context)
 
+
+"""
+def funcao_funcionario(funcao, funcionario):
+    if funcao == 'Coordenador':
+        form3 = UserFormInativo(instance=funcionario.User_FK)
+        return form3
+    return
+"""
 
 
 @login_required

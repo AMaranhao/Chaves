@@ -11,14 +11,21 @@
     <ul>
     {% for funcionario in funcionarios %}
         <li>
+
             <a href="{% url 'funcionario_update' funcionario.id %}">{{funcionario.User_FK}}</a>
-            <a href="{% url 'funcionario_delete' funcionario.id %}"> -    Deletar</a>
+<!--            <a href="{% url 'funcionario_delete' funcionario.id %}"> -    Deletar</a> -->
         </li>
     {% endfor %}
     </ul>
+    {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' or funcionario_logado.Cargo_FK.Nome == 'Administrador' %}
+<!--    <p>
+    <a href="{% url 'user_new' %}">Funcionários Inativos</a>
+    </p> -->
     <p>
     <a href="{% url 'user_new' %}">Novo Funcionario</a>
-    </p><p>
+    </p>
+    {% endif %}
+    <p>
     <a href="{% url 'menu' %}">Voltar</a>
     </p>
 </body>
