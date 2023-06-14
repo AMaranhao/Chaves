@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from BancoDeDados.models import CURSOSENAC
+from BancoDeDados.models import CURSOSENAC, FUNCIONARIO
 from .forms import CursoForm
 from django.db import transaction
 
@@ -9,7 +9,19 @@ from django.db import transaction
 @login_required()
 def curso_list(request):
     cursos = CURSOSENAC.objects.all()
-    return render(request, 'curso.html', {'cursos': cursos})
+    usuarioLogado = FUNCIONARIO.objects.get(User_FK=request.user)
+    autorizaçãoCriarCurso = False
+    if (usuarioLogado.Cargo_FK.Nome == 'Coordenador') and (usuarioLogado.Curso_FK.Nome == 'ADS'):
+        autorizaçãoCriarCurso = True
+    autorizaçãoAtualizarCurso = False
+    if (usuarioLogado.Cargo_FK.Nome == 'Coordenador') and (usuarioLogado.Curso_FK.Nome == 'ADS'):
+        autorizaçãoAtualizarCurso = True
+    context = {
+        'cursos':cursos,
+        'autorizaçãoCriarCurso':autorizaçãoCriarCurso,
+        'autorizaçãoAtualizarCurso': autorizaçãoAtualizarCurso,
+    }
+    return render(request, 'curso.html', context)
 
 
 @login_required()
