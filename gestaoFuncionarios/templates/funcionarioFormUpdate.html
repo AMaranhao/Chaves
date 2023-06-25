@@ -11,7 +11,7 @@
         {{ form1.as_p }}
         {{ form2.as_p }}
 
-        {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
+        {% if mostrarForm3 %}
             {{ form3.as_p }}
         {% endif %}
         <button type="submit">Salvar</button>

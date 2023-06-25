@@ -79,8 +79,13 @@ def funcionario_update(request, id):
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
 #    funcao = funcionario_logado.Cargo_FK.Nome
 
+    if funcionario.Cargo_FK.Nome == 'Coordenador' or funcionario.Cargo_FK.Nome == 'Administrador':
+        mostrar_ativo = False
+    else:
+        mostrar_ativo = True
+
     if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
-        form3 = UserFormInativo(instance=funcionario.User_FK)
+            form3 = UserFormInativo(instance=funcionario.User_FK)
 
     if request.method == 'POST':
         form1 = UserFormUpdate(request.POST or None, request.FILES or None, instance=funcionario.User_FK)
@@ -100,11 +105,14 @@ def funcionario_update(request, id):
         if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
             form3 = UserFormInativo(instance=funcionario.User_FK)
     if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
+        mostrarForm3 = (funcionario.Cargo_FK.Nome != 'Coordenador' or funcionario.Cargo_FK.Nome != 'Administrador') and mostrar_ativo
         context = {
             'form1': form1,
             'form2': form2,
             'form3': form3,
             'funcionario_logado': funcionario_logado,
+            'mostrarForm3': mostrarForm3,
+
         }
 
     else:
