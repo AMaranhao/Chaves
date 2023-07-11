@@ -89,7 +89,13 @@ def funcionario_update(request, id):
 
     if request.method == 'POST':
         form1 = UserFormUpdate(request.POST or None, request.FILES or None, instance=funcionario.User_FK)
-        form2 = FuncionarioFormUpdate(request.POST, instance=funcionario)
+        form2 = FuncionarioFormUpdate(request.POST or None, instance=funcionario, initial={
+        'user_cargo': funcionario_logado.Cargo_FK.Nome,
+        'Telefone': funcionario.Telefone,
+        'Cargo_FK': funcionario.Cargo_FK,
+        'funcionario_logado':funcionario_logado,
+
+    })
 
         if form1.is_valid() and form2.is_valid():
             with transaction.atomic():
@@ -101,7 +107,12 @@ def funcionario_update(request, id):
             return redirect('funcionario_list')
     else:
         form1 = UserFormUpdate(instance=funcionario.User_FK)
-        form2 = FuncionarioFormUpdate(instance=funcionario)
+        form2 = FuncionarioFormUpdate(request.POST or None, instance=funcionario, initial={
+            'user_cargo': funcionario_logado.Cargo_FK.Nome,
+            'Telefone': funcionario.Telefone,
+            'Cargo_FK': funcionario.Cargo_FK,
+            'funcionario_logado': funcionario_logado,
+        })
         if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
             form3 = UserFormInativo(instance=funcionario.User_FK)
     if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):

@@ -6,7 +6,7 @@
 </head>
 <body>
     <a href="{% url 'logout' %}">Sair</a>
-    <h1>Agendamentos Realizados</h1>
+    <h1>Agendamentos</h1>
 
     <ul>
     {% for agendamento in agendamentos %}
@@ -18,9 +18,13 @@
     {% endfor %}
     </ul>
     </ul>
+
+    {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
     <p>
     <a href="{% url 'agendamento_new' %}">Novo Agendamento</a>
-    </p><p>
+    </p>
+    {% endif %}
+    <p>
     <a href="{% url 'menu' %}">Voltar</a>
     </p>
 </body>

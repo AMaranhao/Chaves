@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from BancoDeDados.models import FUNCIONARIO
+from BancoDeDados.models import FUNCIONARIO, CURSOSENAC, CARGO
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
@@ -30,13 +30,27 @@ class FuncionarioForm(ModelForm):
 
 
 class FuncionarioFormUpdate(ModelForm):
+    Curso_FK = forms.ModelChoiceField(queryset=CURSOSENAC.objects.all(), disabled=True, label='Curso/Setor')
+
+    def __init__(self, *args, **kwargs):
+        super(FuncionarioFormUpdate, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.Curso_FK:
+            self.fields['Curso_FK'].initial = self.instance.Curso_FK
+        if 'user_cargo' in self.initial:
+            user_cargo = self.initial['user_cargo']
+            if user_cargo == 'Coordenador':
+                self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome='Coordenador')
+            elif user_cargo == 'Administrador':
+                self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome='Administrador')
+            else:
+                self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome=self.instance.Cargo_FK.Nome)
     class Meta:
         model = FUNCIONARIO
         fields = ['Telefone', 'Curso_FK', 'Cargo_FK']
         labels = {
-            'Curso_FK': 'Curso',
             'Cargo_FK': 'Cargo',
         }
+
 
 
 class UserForm(ModelForm):

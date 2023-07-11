@@ -9,8 +9,15 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
         <button type="submit">Salvar</button>
-        <a href="{% url 'agendamento_list' %}">Cancelar</a>
+        {% endif %}
+        <!--
+        {% if funcionario_logado.Cargo_FK.Nome == 'Recepcionista' %}
+        <button type="submit">Salvar</button>
+        {% endif %}
+        -->
+        <a href="{% url 'agendamento_list' %}">Voltar</a>
     </form>
 
 
