@@ -3,9 +3,12 @@ from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
-from BancoDeDados.models import FUNCIONARIO
+from django.contrib.auth import logout
+
+from BancoDeDados.models import FUNCIONARIO, CARGO
 from django.contrib.auth.models import User
 from .forms import FuncionarioForm, UserForm, UserFormUpdate, UserFormInativo, FuncionarioFormUpdate
+from home.views import mylogout
 from django.db import transaction
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
@@ -93,16 +96,28 @@ def funcionario_update(request, id):
         'user_cargo': funcionario_logado.Cargo_FK.Nome,
         'Telefone': funcionario.Telefone,
         'Cargo_FK': funcionario.Cargo_FK,
-        'funcionario_logado':funcionario_logado,
-
     })
 
         if form1.is_valid() and form2.is_valid():
             with transaction.atomic():
                 user = form1.save()
                 form2.save(commit=False)
-                funcionario.User_FK = user
-                funcionario.save()
+
+                if form2.cleaned_data['Cargo_FK'].Nome == 'Coordenador' and funcionario_logado.Cargo_FK.Nome == 'Coordenador':
+                    funcionario_logado.Cargo_FK = CARGO.objects.get(Nome='Professor')
+                    funcionario_logado.save()
+                    funcionario.User_FK = user
+                    funcionario.save()
+                    funcionario_logout(request)
+                elif form2.cleaned_data['Cargo_FK'].Nome == 'Administrador' and funcionario_logado.Cargo_FK.Nome == 'Administrador':
+                    funcionario_logado.Cargo_FK = CARGO.objects.get(Nome='Recepcionista')
+                    funcionario_logado.save()
+                    funcionario.User_FK = user
+                    funcionario.save()
+                    funcionario_logout(request)
+                else:
+                    funcionario.User_FK = user
+                    funcionario.save()
 
             return redirect('funcionario_list')
     else:
@@ -111,7 +126,6 @@ def funcionario_update(request, id):
             'user_cargo': funcionario_logado.Cargo_FK.Nome,
             'Telefone': funcionario.Telefone,
             'Cargo_FK': funcionario.Cargo_FK,
-            'funcionario_logado': funcionario_logado,
         })
         if (funcionario_logado.Cargo_FK.Nome == 'Coordenador') or (funcionario_logado.Cargo_FK.Nome == 'Administrador'):
             form3 = UserFormInativo(instance=funcionario.User_FK)
@@ -184,6 +198,8 @@ def funcionario_delete(request, id):
     return render(request, 'funcionarioDeleteConfirm.html', context)
 
 
-
+def funcionario_logout(request):
+    logout(request)
+    return redirect('home')
 
 
