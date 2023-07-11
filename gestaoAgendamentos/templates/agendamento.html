@@ -13,7 +13,9 @@
         <li>
             <a href="{% url 'agendamento_update' agendamento.id %}">
                 {{agendamento.Salas_FK}} - {{agendamento.Horario_inicio}}</a>
-            <a href="{% url 'agendamento_delete' agendamento.id %}"> -    Deletar</a>
+            {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
+                <a href="{% url 'agendamento_delete' agendamento.id %}"> -    Deletar</a>
+            {% endif %}
         </li>
     {% endfor %}
     </ul>

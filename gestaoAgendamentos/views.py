@@ -25,24 +25,39 @@ def agendamento_new(request):
     funcionarios = FUNCIONARIO.objects.filter(Curso_FK=current_user.funcionario.Curso_FK)
 
     form.fields['Funcionario_FK'].queryset = funcionarios
-
-    return render(request, 'agendamentoForm.html', {'form': form})
-
-@login_required()
-def agendamento_update(request, id):
-    agendamento = get_object_or_404(AGENDAMENTO, pk=id)
-    form = AgendamentoForm(request.POST or None, request.FILES or None, instance=agendamento)
-
-    if form.is_valid():
-        form.save()
-        return redirect('agendamento_list')
-
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
     context = {
         'form': form,
         'funcionario_logado': funcionario_logado
     }
+
     return render(request, 'agendamentoForm.html', context)
+
+@login_required()
+def agendamento_update(request, id):
+    agendamento = get_object_or_404(AGENDAMENTO, pk=id)
+    funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
+    form = AgendamentoForm(request.POST or None, request.FILES or None, instance=agendamento)
+
+    if request.method == 'POST':
+        form = AgendamentoForm(request.POST, instance=agendamento)
+        if form.is_valid():
+            form.save()
+            return redirect('agendamento_list')
+
+
+    context = {
+        'form': form,
+        'funcionario_logado': funcionario_logado
+    }
+    return render(request, 'agendamentoForm.html', context)
+
+
+
+
+
+
+
 
 @login_required()
 def agendamento_delete(request, id):

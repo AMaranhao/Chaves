@@ -26,4 +26,12 @@ class AgendamentoForm(ModelForm):
             funcionarios = FUNCIONARIO.objects.filter(Curso_FK=current_user.funcionario.Curso_FK).order_by('first_name')
 
             self.fields['Funcionario_FK'].queryset = funcionarios
+'''
+            funcionario_logado = FUNCIONARIO.objects.get(User_FK=kwargs['initial']['request'].user)
 
+            if funcionario_logado.Cargo_FK.Nome != 'Coordenador' and funcionario_logado.Cargo_FK.Nome != 'Recepcionista':
+                for field_name in self.fields:
+                    if field_name != 'Kit':  # Exclua o campo 'Kit' da lista de campos desabilitados
+                        self.fields[field_name].disabled = True
+
+'''
