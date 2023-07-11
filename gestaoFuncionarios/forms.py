@@ -38,12 +38,23 @@ class FuncionarioFormUpdate(ModelForm):
             self.fields['Curso_FK'].initial = self.instance.Curso_FK
         if 'user_cargo' in self.initial:
             user_cargo = self.initial['user_cargo']
-            if user_cargo == 'Coordenador':
+            if user_cargo == 'Coordenador' and self.instance.Cargo_FK.Nome == 'Coordenador':
                 self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome='Coordenador')
-            elif user_cargo == 'Administrador':
+                self.fields['Cargo_FK'].widget.attrs['disabled'] = 'disabled'
+
+            elif user_cargo == 'Coordenador' and self.instance.Cargo_FK.Nome == 'Professor':
+                self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome__in=['Coordenador', 'Professor'])
+
+            elif user_cargo == 'Administrador' and self.instance.Cargo_FK.Nome == 'Administrador':
                 self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome='Administrador')
+                self.fields['Cargo_FK'].widget.attrs['disabled'] = 'disabled'
+
+            elif user_cargo == 'Administrador' and self.instance.Cargo_FK.Nome == 'Recepcionista':
+                self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome__in=['Administrador', 'Recepcionista'])
+
             else:
                 self.fields['Cargo_FK'].queryset = CARGO.objects.filter(Nome=self.instance.Cargo_FK.Nome)
+                self.fields['Cargo_FK'].widget.attrs['disabled'] = 'disabled'
     class Meta:
         model = FUNCIONARIO
         fields = ['Telefone', 'Curso_FK', 'Cargo_FK']
