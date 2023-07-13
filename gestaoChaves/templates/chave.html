@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chaves Cadastradas</title>
+    <title>Chaves</title>
 </head>
 <body>
     <a href="{% url 'logout' %}">Sair</a>
@@ -12,14 +12,19 @@
     {% for chave in chaves %}
         <li>
             <a href="{% url 'chave_update' chave.id %}">{{chave.Numero}}</a>
-            <a href="{% url 'chave_delete' chave.id %}"> -    Deletar</a>
+            {% if funcionario_logado.Cargo_FK.Nome == 'Administrador' %}
+                <a href="{% url 'chave_delete' chave.id %}"> -    Deletar</a>
+            {% endif %}
         </li>
     {% endfor %}
     </ul>
     </ul>
+    {% if funcionario_logado.Cargo_FK.Nome == 'Administrador'%}
+        <p>
+        <a href="{% url 'chave_new' %}">Nova Chave</a>
+        </p>
+    {% endif %}
     <p>
-    <a href="{% url 'chave_new' %}">Nova Chave</a>
-    </p><p>
     <a href="{% url 'menu' %}">Voltar</a>
     </p>
 </body>
