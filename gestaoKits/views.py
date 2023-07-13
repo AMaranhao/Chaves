@@ -22,7 +22,12 @@ def kit_new(request):
     if form.is_valid():
         form.save()
         return redirect('kit_list')
-    return render(request, 'kitForm.html', {'form': form})
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'kitForm.html', context)
 
 @login_required()
 def kit_update(request, id):
@@ -50,4 +55,8 @@ def kit_delete(request, id):
         kit.delete()
         return redirect('kit_list')
 
-    return render(request, 'kitDeleteConfirm.html', {'form': form})
+    context = {
+        'form': form
+    }
+
+    return render(request, 'kitDeleteConfirm.html', context)
