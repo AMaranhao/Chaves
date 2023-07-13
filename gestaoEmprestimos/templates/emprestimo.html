@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kits Cadastrados</title>
+    <title>Emprestimos Cadastrados</title>
 </head>
 <body>
     <a href="{% url 'logout' %}">Sair</a>
-    <h1>Kits Cadastrados</h1>
+    <h1>Emprestimos Ativos</h1>
 
     <ul>
-    {% for kit in kits %}
+    {% for emprestimo in emprestimos %}
         <li>
-            <a href="{% url 'kit_update' kit.id %}">{{kit.Numero}}</a>
-            {% if usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
-                <a href="{% url 'kit_delete' kit.id %}"> -    Deletar</a>
+            <a href="{% url 'emprestimo_update' emprestimo.id %}">{{emprestimo.Numero}}</a>
+            {% if usuarioLogado.Cargo_FK.Nome == 'Recepcionista' %}
+                <a href="{% url 'emprestimo_delete' emprestimo.id %}"> -    Deletar</a>
             {% endif %}
         </li>
     {% endfor %}
     </ul>
     </ul>
-    {% if usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
-        <p><a href="{% url 'kit_new' %}">Novo Kit</a></p>
+    {% if usuarioLogado.Cargo_FK.Nome == 'Recepcionista' %}
+        <p><a href="{% url 'emprestimo_new' %}">Novo Emprestimo</a></p>
     {% endif %}
     <p>
     <a href="{% url 'menu' %}">Voltar</a>

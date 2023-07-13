@@ -5,12 +5,12 @@
     <title>Remoção de Kit</title>
 </head>
 <body>
-  <h1>Confirmação de Kit</h1>
+  <h1>Confirmação de Cancelamento de Emprestimo</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Delete</button>
-        <a href="{% url 'kit_list' %}">Cancelar</a>
+        <a href="{% url 'emprestimo_list' %}">Cancelar</a>
     </form>
 
 
