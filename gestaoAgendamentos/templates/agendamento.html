@@ -12,8 +12,8 @@
     {% for agendamento in agendamentos %}
         <li>
             <a href="{% url 'agendamento_update' agendamento.id %}">
-                {{agendamento.Salas_FK}} - {{agendamento.Horario_inicio}}</a>
-            {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
+                {{agendamento.Funcionario_FK}} - {{agendamento.Salas_FK}} - {{agendamento.Horario_inicio}}</a>
+            {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' and agendamento.Funcionario_FK.Curso_FK == funcionario_logado.Curso_FK %}
                 <a href="{% url 'agendamento_delete' agendamento.id %}"> -    Deletar</a>
             {% endif %}
         </li>

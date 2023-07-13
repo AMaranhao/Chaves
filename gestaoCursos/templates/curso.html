@@ -10,16 +10,17 @@
 
     <ul>
     {% for curso in cursos %}
-        {% if autorizaçãoAtualizarCurso == True %}
-            <li><a href="{% url 'curso_update' curso.id %}">{{curso.Nome}}</a></li>
-        {% else %}
+        {% if autorizaçãoUpdateCurso == True %}
+            <li><a href="{% url 'curso_update' curso.id %}">{{curso.Nome}}</a>
+            <a href="{% url 'curso_delete' curso.id %}"> -    Deletar</a></li>
+        {% elif usuarioLogado.Cargo_FK.Nome == 'Coordenador' %}
             <li>{{curso.Nome}}</li>
         {% endif %}
-<!--            <a href="{% url 'curso_delete' curso.id %}"> -    Deletar</a> -->
+
 
     {% endfor %}
     </ul>
-    {% if autorizaçãoCriarCurso == True %}
+    {% if autorizaçãoUpdateCurso == True %}
         <p><a href="{% url 'curso_new' %}">Novo Curso</a></p>
     {% endif %}
     <p><a href="{% url 'menu' %}">Voltar</a></p>

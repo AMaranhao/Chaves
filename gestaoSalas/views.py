@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from BancoDeDados.models import SALAS
+from BancoDeDados.models import SALAS, FUNCIONARIO
 from .forms import SalaForm
 
 @login_required()
 def sala_list(request):
     salas = SALAS.objects.all()
-    return render(request, 'sala.html', {'salas': salas})
+    usuarioLogado = FUNCIONARIO.objects.get(User_FK=request.user)
+
+    context = {
+        'salas': salas,
+        'usuarioLogado': usuarioLogado,
+    }
+
+    return render(request, 'sala.html', context)
 
 @login_required()
 def sala_new(request):
@@ -21,12 +28,18 @@ def sala_new(request):
 def sala_update(request, id):
     sala = get_object_or_404(SALAS, pk=id)
     form = SalaForm(request.POST or None, request.FILES or None, instance=sala)
+    usuarioLogado = FUNCIONARIO.objects.get(User_FK=request.user)
 
     if form.is_valid():
         form.save()
         return redirect('sala_list')
 
-    return render(request, 'salaForm.html', {'form': form})
+    context = {
+        'form': form,
+        'usuarioLogado': usuarioLogado,
+    }
+
+    return render(request, 'salaForm.html', context)
 
 @login_required()
 def sala_delete(request, id):

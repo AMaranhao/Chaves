@@ -12,14 +12,17 @@
     {% for sala in salas %}
         <li>
             <a href="{% url 'sala_update' sala.id %}">{{sala.Numero}}</a>
-            <a href="{% url 'sala_delete' sala.id %}"> -    Deletar</a>
+            {% if usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
+                <a href="{% url 'sala_delete' sala.id %}"> -    Deletar</a>
+            {% endif %}
         </li>
     {% endfor %}
     </ul>
     </ul>
+    {% if usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
+        <p><a href="{% url 'sala_new' %}">Nova Sala</a></p>
+    {% endif %}
     <p>
-    <a href="{% url 'sala_new' %}">Nova Sala</a>
-    </p><p>
     <a href="{% url 'menu' %}">Voltar</a>
     </p>
 </body>

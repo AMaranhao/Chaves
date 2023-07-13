@@ -9,8 +9,12 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Salvar</button>
-        <a href="{% url 'kit_list' %}">Cancelar</a>
+        {% if usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
+            <button type="submit">Salvar</button>
+            <a href="{% url 'kit_list' %}">Cancelar</a>
+        {% else %}
+            <a href="{% url 'kit_list' %}">Voltar</a>
+        {% endif %}
     </form>
 
 

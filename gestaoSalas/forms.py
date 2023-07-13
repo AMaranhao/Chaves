@@ -8,7 +8,7 @@ class SalaForm(ModelForm):
         widget=forms.CheckboxInput)
     class Meta:
         model = SALAS
-        fields = ['Numero', 'Tipo_de_Kit', 'Tipo_Sala_FK', 'Ocupada', 'Esta_ativa']
+        fields = ['Numero', 'Tipo_de_Kit', 'Tipo_Sala_FK', 'Esta_ativa']
         labels = {
             'Tipo_de_Kit': 'Tipo de Kit',
             'Tipo_Sala_FK': 'Tipo de Sala',

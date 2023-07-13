@@ -9,8 +9,8 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
-        <button type="submit">Salvar</button>
+        {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' and agendamento.Funcionario_FK.Curso_FK == funcionario_logado.Curso_FK %}
+            <button type="submit">Salvar</button>
         {% endif %}
         <!--
         {% if funcionario_logado.Cargo_FK.Nome == 'Recepcionista' %}

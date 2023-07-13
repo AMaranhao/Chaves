@@ -7,9 +7,10 @@ from .forms import AgendamentoForm
 def agendamento_list(request):
     agendamentos = AGENDAMENTO.objects.all()
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
+
     context = {
-        'agendamentos':agendamentos,
-        'funcionario_logado': funcionario_logado
+        'agendamentos':agendamentos
+        ,'funcionario_logado': funcionario_logado
     }
     return render(request, 'agendamento.html', context)
 
@@ -37,22 +38,48 @@ def agendamento_new(request):
 def agendamento_update(request, id):
     agendamento = get_object_or_404(AGENDAMENTO, pk=id)
     funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
-    form = AgendamentoForm(request.POST or None, request.FILES or None, instance=agendamento)
 
     if request.method == 'POST':
-        form = AgendamentoForm(request.POST, instance=agendamento)
+        form = AgendamentoForm(request.POST, instance=agendamento, usuario_logado=funcionario_logado)
         if form.is_valid():
             form.save()
             return redirect('agendamento_list')
-
+    else:
+        form = AgendamentoForm(instance=agendamento, usuario_logado=funcionario_logado)
 
     context = {
         'form': form,
-        'funcionario_logado': funcionario_logado
+        'funcionario_logado': funcionario_logado,
+        'agendamento': agendamento
+    }
+    return render(request, 'agendamentoForm.html', context)
+'''
+def agendamento_update(request, id):
+    agendamento = get_object_or_404(AGENDAMENTO, pk=id)
+    funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
+
+    if request.method == 'POST':
+        form = AgendamentoForm(request.POST, instance=agendamento, usuario_logado=funcionario_logado)
+        if form.is_valid():
+            form.save()
+            return redirect('agendamento_list')
+    else:
+        form = AgendamentoForm(instance=agendamento, usuario_logado=funcionario_logado)
+
+    funcionarios = FUNCIONARIO.objects.all()
+    #current_user = request.user
+    #funcionarios = FUNCIONARIO.objects.filter(Curso_FK=current_user.funcionario.Curso_FK)
+
+    form.fields['Funcionario_FK'].queryset = funcionarios
+
+    context = {
+        'form': form
+        ,'funcionario_logado': funcionario_logado
+        ,'agendamento': agendamento
     }
     return render(request, 'agendamentoForm.html', context)
 
-
+'''
 
 
 

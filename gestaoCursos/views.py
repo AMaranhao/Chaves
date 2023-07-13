@@ -10,16 +10,17 @@ from django.db import transaction
 def curso_list(request):
     cursos = CURSOSENAC.objects.all()
     usuarioLogado = FUNCIONARIO.objects.get(User_FK=request.user)
-    autorizaçãoCriarCurso = False
-    if (usuarioLogado.Cargo_FK.Nome == 'Coordenador') and (usuarioLogado.Curso_FK.Nome == 'ADS'):
-        autorizaçãoCriarCurso = True
-    autorizaçãoAtualizarCurso = False
-    if (usuarioLogado.Cargo_FK.Nome == 'Coordenador') and (usuarioLogado.Curso_FK.Nome == 'ADS'):
-        autorizaçãoAtualizarCurso = True
+    autorizaçãoUpdateCurso = False
+
+
+    if (usuarioLogado.Cargo_FK.Nome == 'Administrador'):
+        autorizaçãoUpdateCurso = True
+
+
     context = {
         'cursos':cursos,
-        'autorizaçãoCriarCurso':autorizaçãoCriarCurso,
-        'autorizaçãoAtualizarCurso': autorizaçãoAtualizarCurso,
+        'usuarioLogado': usuarioLogado,
+        'autorizaçãoUpdateCurso': autorizaçãoUpdateCurso,
     }
     return render(request, 'curso.html', context)
 
