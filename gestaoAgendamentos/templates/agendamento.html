@@ -22,9 +22,9 @@
     </ul>
 
     {% if funcionario_logado.Cargo_FK.Nome == 'Coordenador' %}
-    <p>
-    <a href="{% url 'agendamento_new' %}">Novo Agendamento</a>
-    </p>
+        <p><a href="{% url 'agendamento_new' %}">Novo Agendamento</a></p>
+    {% elif funcionario_logado.Cargo_FK.Nome == 'Recepcionista' %}
+        <p><a href="{% url 'agendamento_emprestimo' %}">Novo Emprestimo</a></p>
     {% endif %}
     <p>
     <a href="{% url 'menu' %}">Voltar</a>
