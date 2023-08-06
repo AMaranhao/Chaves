@@ -5,7 +5,7 @@ from BancoDeDados.models import KITS
 class KitForm(ModelForm):
     class Meta:
         model = KITS
-        fields = ['Numero', 'Numeracao_Armario', 'Tipo_de_Kit']
+        fields = ['Numero', 'Numeracao_Armario']
         labels = {
             'Numeracao_Armario': 'Armario',
         }
