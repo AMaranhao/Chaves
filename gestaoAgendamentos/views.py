@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from BancoDeDados.models import AGENDAMENTO, FUNCIONARIO
 from .forms import AgendamentoForm
+from gestaoEmprestimos.forms import EmprestimoForm, CursoEmprestimoForm
 
 @login_required()
 def agendamento_list(request):
@@ -96,3 +97,23 @@ def agendamento_delete(request, id):
         return redirect('agendamento_list')
 
     return render(request, 'agendamentoDeleteConfirm.html', {'form': form})
+
+
+@login_required()
+def agendamento_emprestimo(request):
+    form1 = CursoEmprestimoForm(request.POST or None, request.FILES or None)
+    form2 = EmprestimoForm(request.POST or None, request.FILES or None, curso_fk=form1['Curso_FK'].value())
+    funcionario_logado = FUNCIONARIO.objects.get(User_FK=request.user)
+
+    if form2.is_valid():
+        form2.save()
+        return redirect('agendamento_list')
+
+    context = {
+        'form1': form1
+        ,'form2': form2
+        , 'funcionario_logado': funcionario_logado
+    }
+
+    return render(request, 'agendamentoEmprestimo.html', context)
+
