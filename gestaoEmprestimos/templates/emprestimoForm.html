@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Kit</title>
+    <title>Realizar Emprestimo</title>
 </head>
 <body>
-    <h1>Cadastro de Kit</h1>
+    <h1>Realizar Emprestimo</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        {% if usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
-            <button type="submit">Salvar</button>
-            <a href="{% url 'kit_list' %}">Cancelar</a>
+        {{ form1.as_p }}
+        {{ form2.as_p }}
+        {% if usuarioLogado.Cargo_FK.Nome == 'Recepcionista' %}
+            <button type="submit">Realizar Emprestimo</button>
+            <a href="{% url 'emprestimo_list' %}">Cancelar</a>
         {% else %}
-            <a href="{% url 'kit_list' %}">Voltar</a>
+            <a href="{% url 'emprestimo_list' %}">Voltar</a>
         {% endif %}
     </form>
 
