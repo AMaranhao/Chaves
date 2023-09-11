@@ -1,0 +1,6 @@
+from django.contrib import admin
+from .models import PREDIO, TIPO_SALA, FUNCIONARIO, SALAS, CARGO, CURSOSENAC, CHAVES, AGENDAMENTO, KITS, EMPRESTIMOS
+
+admin.site.register([PREDIO, FUNCIONARIO, CARGO, CURSOSENAC, SALAS, TIPO_SALA, CHAVES, KITS, AGENDAMENTO, EMPRESTIMOS])
+
+# Register your models here.

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+    <a href="{% url 'logout' %}">Sair</a>
+    <u1 class="menu">
+      {% if usuarioLogado.Cargo_FK.Nome == 'Coordenador' %}
+            <br><br><br><br>
+            <li><a href="{% url 'funcionario_list' %}">Funcionarios</a></li>
+            <li><a href="{% url 'agendamento_list' %}">Agendamentos</a></li>
+            <li><a href="{% url 'curso_list' %}">Cursos</a></li>
+            <li><a href="{% url 'sala_list' %}">Salas</a></li>
+            <li><a href="{% url 'emprestimo_list' %}">Emprestimos</a></li>
+            <br><br><br>
+
+        {% elif usuarioLogado.Cargo_FK.Nome == 'Professor' %}
+            <br><br><br><br>
+            <li><a href="{% url 'funcionario_list' %}">Funcionarios</a></li>
+            <li><a href="{% url 'agendamento_list' %}">Agendamentos</a></li>
+            <li><a href="{% url 'emprestimo_list' %}">Emprestimos</a></li>
+            <br><br><br>
+
+        {% elif usuarioLogado.Cargo_FK.Nome == 'Administrador' %}
+            <br><br><br><br>
+            <li><a href="{% url 'funcionario_list' %}">Funcionarios</a></li>
+            <li><a href="{% url 'curso_list' %}">Cursos</a></li>
+            <li><a href="{% url 'kit_list' %}">Kits</a></li>
+            <li><a href="{% url 'chave_list' %}">Chaves</a></li>
+            <li><a href="{% url 'sala_list' %}">Salas</a></li>
+            <br><br><br>
+
+        {% elif usuarioLogado.Cargo_FK.Nome == 'Recepcionista' %}
+            <br><br><br><br>
+            <li><a href="{% url 'funcionario_list' %}">Funcionarios</a></li>
+            <li><a href="{% url 'agendamento_list' %}">Agendamentos</a></li>
+            <li><a href="{% url 'kit_list' %}">Kits</a></li>
+            <li><a href="{% url 'chave_list' %}">Chaves</a></li>
+            <li><a href="{% url 'sala_list' %}">Salas</a></li>
+            <li><a href="{% url 'emprestimo_list' %}">Emprestimos</a></li>
+            <br><br><br>
+
+        {% endif %}
+    </u1>
+    <p>
+        <a href="{% url 'home' %}">Voltar</a>
+    </p>
+
+</body>
+</html>
