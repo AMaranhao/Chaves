@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from BancoDeDados.models import AGENDAMENTO, FUNCIONARIO
+from ..BancoDeDados.models import AGENDAMENTO, FUNCIONARIO
 from tempus_dominus.widgets import DateTimePicker
 
 

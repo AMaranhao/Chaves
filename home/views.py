@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from BancoDeDados.models import FUNCIONARIO
+from ..BancoDeDados.models import FUNCIONARIO
 
 
 def home(request):
@@ -21,4 +21,5 @@ def menu(request):
 @login_required
 def mylogout(request):
     logout(request)
-    return render('home.html')
+    return redirect('home')
+    #return render('home.html')

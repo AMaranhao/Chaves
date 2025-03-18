@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from BancoDeDados.models import AGENDAMENTO, FUNCIONARIO
+from ..BancoDeDados.models import AGENDAMENTO, FUNCIONARIO
 from .forms import AgendamentoForm
-from gestaoEmprestimos.forms import EmprestimoForm, CursoEmprestimoForm
+from ..gestaoEmprestimos.forms import EmprestimoForm, CursoEmprestimoForm
 
 @login_required()
 def agendamento_list(request):

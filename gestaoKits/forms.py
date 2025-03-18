@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from BancoDeDados.models import KITS
+from ..BancoDeDados.models import KITS
 
 
 class KitForm(ModelForm):

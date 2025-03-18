@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from BancoDeDados.models import SALAS
+from ..BancoDeDados.models import SALAS
 from django import forms
 
 

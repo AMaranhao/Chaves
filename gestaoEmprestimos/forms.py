@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from BancoDeDados.models import EMPRESTIMOS, CURSOSENAC, FUNCIONARIO
+from ..BancoDeDados.models import EMPRESTIMOS, CURSOSENAC, FUNCIONARIO
 
 
 class CursoEmprestimoForm(ModelForm):

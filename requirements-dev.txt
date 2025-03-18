@@ -4,8 +4,9 @@ Django==4.2.1
 django-bootstrap-datepicker==1.4.0
 django-datetimepicker==3.14
 django-tempus-dominus==5.1.2.17
-psycopg==3.1.9
-psycopg-binary==3.1.9
+psycopg-binary==3.2.6
 python-decouple==3.8
 sqlparse==0.4.4
 typing_extensions==4.6.3
+django-bootstrap4
+django-bootstrap-datepicker-plus

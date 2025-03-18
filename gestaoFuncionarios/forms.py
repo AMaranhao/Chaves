@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from BancoDeDados.models import FUNCIONARIO, CURSOSENAC, CARGO
+from ..BancoDeDados.models import FUNCIONARIO, CURSOSENAC, CARGO
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError

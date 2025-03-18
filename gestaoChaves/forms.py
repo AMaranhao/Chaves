@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from BancoDeDados.models import CHAVES, FUNCIONARIO
+from ..BancoDeDados.models import CHAVES, FUNCIONARIO
 
 
 class ChaveForm(ModelForm):

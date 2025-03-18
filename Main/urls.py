@@ -22,9 +22,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import PasswordResetView
-from gestaoFuncionarios import urls as funcionario_urls
-from gestaoCursos import urls as curso_urls
-from home import urls as home_urls
+from ..gestaoFuncionarios import urls as funcionario_urls
+from ..gestaoCursos import urls as curso_urls
+from ..home import urls as home_urls
 
 
 urlpatterns = [

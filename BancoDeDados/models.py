@@ -12,6 +12,9 @@ class PREDIO(models.Model):
     def __str__(self):
         return self.Nome
 
+    class Meta:
+        db_table = 'PREDIOS'  # Novo nome da tabela
+
 
 class TIPO_SALA(models.Model):
     Tipo_Sala = models.CharField(max_length=20)
@@ -63,6 +66,9 @@ class CURSOSENAC(models.Model):
 
     def __str__(self):
         return self.Nome
+
+    class Meta:
+        db_table = 'CURSOS'  # Novo nome da tabela
 
 
 

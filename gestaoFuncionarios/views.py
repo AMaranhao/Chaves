@@ -5,10 +5,10 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
-from BancoDeDados.models import FUNCIONARIO, CARGO
+from ..BancoDeDados.models import FUNCIONARIO, CARGO
 from django.contrib.auth.models import User
 from .forms import FuncionarioForm, UserForm, UserFormUpdate, UserFormInativo, FuncionarioFormUpdate
-from home.views import mylogout
+from ..home.views import mylogout
 from django.db import transaction
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError

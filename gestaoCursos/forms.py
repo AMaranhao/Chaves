@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from BancoDeDados.models import CURSOSENAC
+from ..BancoDeDados.models import CURSOSENAC
 from django.contrib.auth.models import User
 
 
