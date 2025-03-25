@@ -21,7 +21,18 @@
    2. Ativar a virtual env
       1. `source venv/bin/activate` caso esteja no macOS
       2. `.\venv\Scripts\activate` caso esteja no windows
-5. `pip install -r requirements.txt` para instalar todas as bibliotecas necessárias
-6. Utilizar comandos `python manage.py migrate` e `python manage.py makemigrations`
-7. Utilizar o comando `python manage.py runserver` para rodar o aplicativo
+5. `pip install -r requirements-dev.txt` para instalar todas as bibliotecas necessárias
+6. Utilizar comandos `python3 manage.py migrate` e `python3 manage.py makemigrations`
+7. Utilizar o comando `python3 manage.py runserverr` para rodar o aplicativo
 8. Clicar no link para utilizar o aplicativo
+9. É necessário usar o super user no django admin para criar nesta ordem:
+a)Inserir predio
+b)Inserir cursos
+c)Inserir tipos de sala
+d)Inserir salas
+e)Inserir kits (opcional)
+f)Inserir chaves
+g)Inserir um cursosenac
+h)Inserir um coordenador
+10. Testar o sistema
+      
